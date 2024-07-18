@@ -196,10 +196,10 @@ function isEmpty(...arr) {
 isEmpty(12)
 //11. Call your function sum, it takes any number of arguments and it returns the sum.
 function sum(num) {
-    let sum  = 0
+    let sum = 0
     let sumString = ''
     for (let i = 1; i <= num; i++) {
-        sum += i 
+        sum += i
 
         sumString = sumString + i
         i < num
@@ -211,22 +211,140 @@ function sum(num) {
 }
 console.log("Tổng từ 1 đến 5 là:", sum(5))
 //12. Write a function called sumOfArrayItems, it takes an array parameter and return the sum of all the items. Check if all the array items are number types. If not give return reasonable feedback.
+function sumOfArrayItems(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        if (typeof arr[i] !== 'number') {
+            console.log(`Dữ liệu nhập vào phải là số, dữ liệu ở index ${i} không phải là số`)
+        }
+    }
+    let sum = 0
+    for (let i = 0; i < arr.length; i++) {
+        sum += i
+    }
+    return sum
+}
+console.log("Tổng 1 mảng bất kỳ: ", sumOfArrayItems([1, 2, '3']))
 //13. Write a function called average, it takes an array parameter and returns the average of the items. Check if all the array items are number types. If not give return reasonable feedback.
+function average(arr) {
+    let temp = 0
+    for (let i = 0; i < arr.length; i++) {
+        if (typeof arr[i] !== 'number') {
+            temp += 1
+            console.log(`Dữ liệu nhập vào phải là số, dữ liệu ở index ${i} không phải là số`)
+        }
+    }
+    let average = 0
+    for (let i = 0; i < arr.length; i++) {
+        if (typeof arr[i] == 'number') {
+            average += arr[i]
+        }
+    }
+    return (average / (arr.length - temp))
+}
+console.log("Trung bình 1 mảng bất kỳ: ", average([1, 2, '3', 4, 5]))
 //14. Write a function called modifyArray takes array as parameter and modifies the fifth item of the array and return the array. If the array length is less than five it return 'item not found'.
-
 // console.log(modifyArray(['Avocado', 'Tomato', 'Potato','Mango', 'Lemon','Carrot']);
 // ['Avocado', 'Tomato', 'Potato','Mango', 'LEMON', 'Carrot']
 // console.log(modifyArray(['Google', 'Facebook','Apple', 'Amazon','Microsoft',  'IBM']);
 // ['Google', 'Facebook','Apple', 'Amazon','MICROSOFT',  'IBM']
 // console.log(modifyArray(['Google', 'Facebook','Apple', 'Amazon']);
 //   'Not Found'
+function modifyArray(arr) {
+    if (arr.length < 5) {
+        console.log("Không tìm thấy")
+    }
+    arr[4] = arr[4].toUpperCase()
+    return arr
+}
+console.log("Viết hoa phần tử thứ 5:", modifyArray(['Avocado', 'Tomato', 'Potato', 'Mango', 'Lemon', 'Carrot']))
 //15. Write a function called isPrime, which checks if a number is prime number.
+function isPrime(num) {
+    if (num < 2) {
+        return "không là số nguyên tố";
+    }
 
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) {
+            return "không là số nguyên tố";
+        }
+    }
+
+    return "là số nguyên tố";
+}
+console.log("Số 10 có phải là số nguyên tố:", isPrime(10))
 //16. Write a functions which checks if all items are unique in the array.
-//17. Write a function which checks if all the items of the array are the same data type.
-//18. JavaScript variable name does not support special characters or symbols except \$ or _. Write a function isValidVariable which check if a variable is valid or invalid variable.
-//19. Write a function which returns array of seven random numbers in a range of 0-9. All the numbers must be unique.
+function areAllItemsUnique(arr) {
+    let uniqueItems = new Set();
 
+    for (let i = 0; i < arr.length; i++) {
+        if (uniqueItems.has(arr[i])) {
+            return false;
+        }
+        uniqueItems.add(arr[i]);
+    }
+
+    return true;
+}
+
+console.log(areAllItemsUnique([1, 2, 3, 4, 5, 3]));
+console.log(areAllItemsUnique(['a', 'b', 'c', 'a']));
+//17. Write a function which checks if all the items of the array are the same data type.
+function areAllItemsSameType(arr) {
+    if (arr.length === 0) {
+        return "Mảng có cùng kiểu dữ liệu";
+    }
+
+    const firstType = typeof arr[0];
+
+    for (let i = 1; i < arr.length; i++) {
+        if (typeof arr[i] !== firstType) {
+            return "Mảng không cùng kiểu dữ liệu";
+        }
+    }
+    return "Mảng có cùng kiểu dữ liệu";
+}
+console.log(areAllItemsSameType([1, 2, 3, 4, 5]));
+console.log(areAllItemsSameType([1, '2', 3, 4, 5]));
+console.log(areAllItemsSameType(['a', 'b', 'c', 'd']));
+console.log(areAllItemsSameType(['a', 2, 'c', 'd']));
+
+//18. JavaScript variable name does not support special characters or symbols except \$ or _. Write a function isValidVariable which check if a variable is valid or invalid variable.
+function isValidVariable(variableName) {
+    const regex = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
+    return regex.test(variableName);
+}
+console.log(isValidVariable("validName"));
+console.log(isValidVariable("_validName"));
+console.log(isValidVariable("$validName"));
+console.log(isValidVariable("1invalidName"));
+console.log(isValidVariable("invalid-name"));
+console.log(isValidVariable("invalid name"));
+console.log(isValidVariable("validName123"));
+//19. Write a function which returns array of seven random numbers in a range of 0-9. All the numbers must be unique.
 // sevenRandomNumbers()
 // [(1, 4, 5, 7, 9, 8, 0)]
+function sevenRandomNumbers() {
+    let numbers = [];
+
+    while (numbers.length < 7) {
+        let randomNum = Math.floor(Math.random() * 10);
+
+        if (!numbers.includes(randomNum)) {
+            numbers.push(randomNum);
+        }
+    }
+    return numbers;
+}
+console.log(sevenRandomNumbers())
+
 //20. Write a function called reverseCountries, it takes countries array and first it copy the array and returns the reverse of the original array
+function reverseCountries(countries) {
+    let copiedArray = countries.slice();
+    copiedArray.reverse();
+    return copiedArray;
+}
+let countries = ['USA', 'Canada', 'Australia', 'Germany'];
+let reversedCountries = reverseCountries(countries);
+
+console.log(reversedCountries);
+console.log(countries);
